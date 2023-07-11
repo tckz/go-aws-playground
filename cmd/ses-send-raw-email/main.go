@@ -38,6 +38,7 @@ var (
 	optBody             = flag.String("body", "", "/path/to/mail-body.txt")
 	optFrom             = flag.String("from", "", "From address")
 	optSubject          = flag.String("subject", "", "Subject")
+	optMessageID        = flag.String("message-id", "", "Message-ID")
 	optConfigurationSet = flag.String("configuration-set", "", "SES configuration set")
 )
 
@@ -123,8 +124,11 @@ func run(ctx context.Context) (retErr error) {
 		return fmt.Errorf("Bcc: %v", err)
 	}
 
-	msgid := uuid.New().String() + "@" + fromDomain
-	m.SetHeader("Message-ID", "<"+msgid+">")
+	msgid := *optMessageID
+	if msgid == "" {
+		msgid = "<" + uuid.NewString() + "@" + fromDomain + ">"
+	}
+	m.SetHeader("Message-ID", msgid)
 
 	m.SetBody("text/plain", string(b))
 
