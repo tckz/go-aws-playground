@@ -95,10 +95,10 @@ func run(ctx context.Context) (retErr error) {
 
 	var dests []string
 	appendDest := func(addrs []string) error {
-		for _, to := range optTo {
-			addr, err := mail.ParseAddress(to)
+		for _, e := range addrs {
+			addr, err := mail.ParseAddress(e)
 			if err != nil {
-				return fmt.Errorf("mail.ParseAddress(%s): %v", to, err)
+				return fmt.Errorf("mail.ParseAddress(%s): %v", e, err)
 			}
 			dests = append(dests, addr.Address)
 		}
