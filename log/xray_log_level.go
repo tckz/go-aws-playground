@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aws/aws-xray-sdk-go/xraylog"
+	"github.com/aws/aws-xray-sdk-go/v2/xraylog"
 )
 
 var xrayLogLevelText = make(map[string]xraylog.LogLevel)

@@ -3,7 +3,7 @@ package log
 import (
 	"fmt"
 
-	"github.com/aws/aws-xray-sdk-go/xraylog"
+	"github.com/aws/aws-xray-sdk-go/v2/xraylog"
 	"go.uber.org/zap"
 )
 
