@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"net/http"
 	"net/mail"
 	"os"
 	"os/signal"
@@ -136,7 +137,10 @@ func run(ctx context.Context) (retErr error) {
 	m.WriteTo(sb)
 	os.Stderr.Write(sb.Bytes())
 
-	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion(os.Getenv("AWS_REGION")))
+	cfg, err := config.LoadDefaultConfig(ctx,
+		config.WithRegion(os.Getenv("AWS_REGION")),
+		config.WithHTTPClient(xray.Client(&http.Client{})),
+	)
 	if err != nil {
 		return fmt.Errorf("config.LoadDefaultConfig: %w", err)
 	}

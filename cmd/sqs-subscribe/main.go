@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -55,7 +56,10 @@ func run(ctx context.Context) error {
 		return fmt.Errorf("--queue-url must be specified")
 	}
 
-	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion(os.Getenv("AWS_REGION")))
+	cfg, err := config.LoadDefaultConfig(ctx,
+		config.WithRegion(os.Getenv("AWS_REGION")),
+		config.WithHTTPClient(xray.Client(&http.Client{})),
+	)
 	if err != nil {
 		return fmt.Errorf("config.LoadDefaultConfig: %w", err)
 	}
